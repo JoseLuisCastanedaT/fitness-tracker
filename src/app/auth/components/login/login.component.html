@@ -1,0 +1,60 @@
+<section>
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="5px"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="loginForm"
+  >
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        placeholder="Your email"
+        name="email"
+        email
+        required
+        formControlName="email"
+      />
+      <mat-error *ngIf="loginForm.controls['email'].hasError('required')"
+        >Field must not be empty.</mat-error
+      >
+      <mat-error *ngIf="!loginForm.controls['email'].hasError('required')"
+        >Invalid or missing email.</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field
+      class="example-full-width"
+      appearance="fill"
+      hintLabel="Should be at least 6 charaters long."
+    >
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        matInput
+        name="password"
+        placeholder="Your Password"
+        required
+        minlength="6"
+        formControlName="password"
+      />
+
+      <mat-error *ngIf="loginForm.controls['password'].hasError('required')">Missing password.</mat-error>
+
+      <mat-error *ngIf="!loginForm.controls['password'].hasError('required')"
+        >Has to be at least 6 characters long.</mat-error>
+
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="loginForm.invalid"
+    >
+      Submit
+    </button>
+  </form>
+</section>
