@@ -1,6 +1,14 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { isAuthenticatedSelector } from 'src/app/store/selectors';
 
 @Component({
   selector: 'ft-sidenav',
@@ -9,20 +17,17 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   @Output() closeSidenav = new EventEmitter<void>();
-  isAuth: boolean = false;
+  isAuth$: Observable<boolean>;
   authSubscription: Subscription;
-  
 
-  constructor (private authService: AuthService){}
+  constructor(private authService: AuthService, private store: Store) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.authChanges.subscribe(authState => {
-      this.isAuth = authState
-    })
+    this.isAuth$ = this.store.pipe(select(isAuthenticatedSelector));
   }
 
   ngOnDestroy(): void {
-      this.authSubscription.unsubscribe()
+    this.authSubscription.unsubscribe();
   }
 
   onLogout() {

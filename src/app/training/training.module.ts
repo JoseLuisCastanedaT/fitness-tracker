@@ -19,6 +19,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { TrainingRoutingModule } from './training-routing.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../store/reducers';
+import { trainingReducers } from './store/training.reducer';
 
 @NgModule({
   imports: [
@@ -35,7 +39,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    TrainingRoutingModule,
+    StoreModule.forFeature('ui',reducers),
+    StoreModule.forFeature('training', trainingReducers)
   ],
   declarations: [
     TrainingComponent,
